@@ -1,0 +1,46 @@
+﻿@implements IAsyncDisposable
+@inject IJSRuntime JS
+
+@code {
+    private IJSObjectReference? module;
+
+    protected async override Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            module = await JS.InvokeAsync<IJSObjectReference>("import",
+                "./Components/CallDotNet.razor.js");
+
+            await module.InvokeVoidAsync("addHandlers");
+        }
+    }
+
+    [JSInvokable]
+    public static async Task<string?> GetFormattedSerial(string? id)
+    {
+        if (int.TryParse(id, out int result))
+        {
+            return await Task.FromResult(MyFormater.GetFormatedSerial(result));
+        }
+
+        string? message = "An ID was not entered.";
+        return await Task.FromResult(message);
+    }
+
+    async ValueTask IAsyncDisposable.DisposeAsync()
+    {
+        if (module is not null)
+        {
+            await module.DisposeAsync();
+        }
+    }
+}
+
+@*
+@inject JsCsharpInterop.FormaterService MyFormater
+if (int.TryParse(id, out int result))
+{
+    FormaterService myFormater = new FormaterService();
+    return await Task.FromResult(myFormater.FormatSerial(result));
+}
+*@
