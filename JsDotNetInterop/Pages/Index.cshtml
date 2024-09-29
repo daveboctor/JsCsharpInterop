@@ -1,0 +1,55 @@
+﻿@page
+@using JsDotNetInterop.Components
+@model IndexModel
+@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>JsDotNetInterop</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <style>
+        .result {
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body>
+    <header></header>
+    <div class="container">
+        <main role="main" class="pb-3">
+            <h5>Use fetch() and a Web API</h5>
+            <input id="serial-id" type="number" />
+            <button id="get-serial-id">Format</button>
+            <p>
+                <span>Result: <span class="result" id="web-api-result"></span></span>
+            </p>
+
+            <hr />
+
+            <h5>Call .NET method from JavaScript</h5>
+            <input type="number" id="id-input" />
+            <button id="btn">Format</button>
+            <p>
+                Result: <span class="result" id="dot-net-result"></span>
+            </p>
+            <component type="typeof(CallDotNet)" render-mode="ServerPrerendered" />
+
+            <hr />
+
+            <h5>Razor Component UI</h5>
+            <component type="typeof(EmbeddedFormatSerial)" render-mode="ServerPrerendered" />
+
+            @Html.AntiForgeryToken()
+        </main>
+    </div>
+
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="_framework/blazor.web.js"></script>
+    <script src="/js/format-serial.js"></script>
+</body>
+</html>

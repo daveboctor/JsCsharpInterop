@@ -1,0 +1,22 @@
+﻿@*
+    Razor Component UI adapated from:
+    https://stackoverflow.com/questions/70046997/how-would-you-call-methods-from-a-different-class-in-a-razor-class-file-in-blazo/70048391#70048391
+*@
+
+@inject Services.FormaterService FormaterService
+
+<input type="number" id="Num1" @bind="Id" />
+<button @onclick="@(() => FormaterService.FormatSerial(Id))">Format</button>
+<button @onclick="@GetFormatSerial">Format</button>
+<p>
+    Result: <span class="result">@FormaterService.FormattedSerialNum</span>
+</p>
+
+@code {
+    private int? Id;
+
+    public void GetFormatSerial()
+    {
+        FormaterService.FormatSerial(Id);
+    }
+}
