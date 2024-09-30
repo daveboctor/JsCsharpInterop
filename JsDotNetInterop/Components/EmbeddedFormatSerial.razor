@@ -17,6 +17,11 @@
 
     public void GetFormatSerial()
     {
+        if (Id == null)
+        {
+            FormaterService.FormattedSerialNum = "An ID was not entered.";
+            return;
+        }
         FormaterService.FormatSerial(Id);
     }
 }
